@@ -61,9 +61,7 @@ module.exports = {
       // url: "https://rpc.testnet.fantom.network/",
       url: "https://xapi.testnet.fantom.network/lachesis",
       chainId: 0xfa2,
-      accounts: [
-        "a6bd9fa520a4bc25f40baac061f038188db7b1f16703493f5dd5453bfb399dff",
-      ],
+      accounts: [],
     },
   },
   etherscan: {
