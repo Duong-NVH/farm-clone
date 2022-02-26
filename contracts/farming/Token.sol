@@ -1,9 +1,11 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity 0.6.12;
 
 import "./FRC20.sol";
 
-// CakeToken with Governance.
-contract CakeToken is FRC20("Fake PancakeSwap Token", "Cake") {
+// Token with Governance.
+contract Token is FRC20("DemonX Finance", "DMX") {
     /// @notice Creates `_amount` token to `_to`. Must only be called by the owner (MasterChef).
     function mint(address _to, uint256 _amount) public onlyOwner {
         _mint(_to, _amount);
@@ -111,13 +113,13 @@ contract CakeToken is FRC20("Fake PancakeSwap Token", "Cake") {
         address signatory = ecrecover(digest, v, r, s);
         require(
             signatory != address(0),
-            "CAKE::delegateBySig: invalid signature"
+            "TOKEN::delegateBySig: invalid signature"
         );
         require(
             nonce == nonces[signatory]++,
-            "CAKE::delegateBySig: invalid nonce"
+            "TOKEN::delegateBySig: invalid nonce"
         );
-        require(now <= expiry, "CAKE::delegateBySig: signature expired");
+        require(now <= expiry, "TOKEN::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
 
@@ -146,7 +148,7 @@ contract CakeToken is FRC20("Fake PancakeSwap Token", "Cake") {
     {
         require(
             blockNumber < block.number,
-            "CAKE::getPriorVotes: not yet determined"
+            "TOKEN::getPriorVotes: not yet determined"
         );
 
         uint32 nCheckpoints = numCheckpoints[account];
@@ -182,7 +184,7 @@ contract CakeToken is FRC20("Fake PancakeSwap Token", "Cake") {
 
     function _delegate(address delegator, address delegatee) internal {
         address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying CAKEs (not scaled);
+        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying TOKENs (not scaled);
         _delegates[delegator] = delegatee;
 
         emit DelegateChanged(delegator, currentDelegate, delegatee);
@@ -226,7 +228,7 @@ contract CakeToken is FRC20("Fake PancakeSwap Token", "Cake") {
     ) internal {
         uint32 blockNumber = safe32(
             block.number,
-            "CAKE::_writeCheckpoint: block number exceeds 32 bits"
+            "TOKEN::_writeCheckpoint: block number exceeds 32 bits"
         );
 
         if (
